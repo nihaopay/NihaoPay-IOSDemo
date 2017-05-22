@@ -258,7 +258,7 @@
     
     //order info
     nhpOrder.amount=@"1";
-    nhpOrder.currency=@"EUR";
+    nhpOrder.currency=@"USD";
     nhpOrder.vender=@"alipay";
     nhpOrder.reference=[self generateReference];
     nhpOrder.ipnUrl=@"https://demo.nihaopay.com/ipn";
@@ -272,28 +272,12 @@
     NSString *appScheme = @"nihaopay";
     
     [[AlipaySDK defaultService] payOrder:orderInfo fromScheme:appScheme callback:^(NSDictionary *resultDic) {
-        
+         NSLog(@"result = %@",resultDic);
         NihaoPayResult *nhpResult = [[NihaoPayResult alloc] initWithAlipayReturn:resultDic];
+        NSLog(@"result = %@",resultDic);
         
-        if([nhpResult.needQuery isEqualToString:@"true"]){
-            
-            NSDictionary *jsonResult=[nhpOrder getPayResult];
-            
-            NSLog(@"NihaoPay Result: %@",jsonResult);
-            
-            NSString *status=[jsonResult valueForKey:@"status"];
-            
-            if([status isEqualToString:@"success"])
-            {
-                [self showAlertMessage:@"payment success"];
-            }
-            else{
-                [self showAlertMessage:status];
-            }
-        }
-        else{
-            [self showAlertMessage:nhpResult.clientStatus];
-        }
+        
+        NSLog(@"result = %@",nhpResult.clientStatus);
     }];
 }
 

@@ -20,7 +20,7 @@
         case 9000:
             self.clientStatus=@"success";
             self.needQuery=@"true";
-            break;
+    break;
         case 8000:
         case 6004:
             self.clientStatus=@"Processing";
