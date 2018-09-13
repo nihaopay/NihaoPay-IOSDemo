@@ -82,8 +82,8 @@
     if(self.desc){
         [description appendFormat:@"&description=%@", self.desc];
     }
-    if(self.vender){
-        [description appendFormat:@"&vender=%@", self.vender];
+    if(self.vendor){
+        [description appendFormat:@"&vendor=%@", self.vendor];
     }
     
     NSLog(@"request NihaoPay params: %@",description);

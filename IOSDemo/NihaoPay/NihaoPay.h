@@ -14,7 +14,7 @@
 @property(nonatomic, copy) NSString * nhpApiUrl;// NihaoPay Api Url
 @property(nonatomic, copy) NSString * nhpApiToken;// NihaoPay Api Token
 
-@property(nonatomic, copy) NSString * vender;
+@property(nonatomic, copy) NSString * vendor;
 @property(nonatomic, copy) NSString * reference;
 @property(nonatomic, copy) NSString * amount;
 @property(nonatomic, copy) NSString * currency;

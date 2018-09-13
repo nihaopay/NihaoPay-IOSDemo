@@ -259,7 +259,7 @@
     //order info
     nhpOrder.amount=@"1";
     nhpOrder.currency=@"USD";
-    nhpOrder.vender=@"alipay";
+    nhpOrder.vendor=@"alipay";
     nhpOrder.reference=[self generateReference];
     nhpOrder.ipnUrl=@"https://demo.nihaopay.com/ipn";
     nhpOrder.note=@"note for merchant";
