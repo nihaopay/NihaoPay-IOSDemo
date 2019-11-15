@@ -292,10 +292,18 @@
     
     
     NSLog(@"action:%@", @"Choose UnionPay Checkout");
+    NSString *token = nil;
+    if(token == nil){
+       NSString* msg = @"add token please";
+        
+            [self showAlertMessage:msg];
+        return;
+    }
+    
        
        //Init Nihaopay object
        // NihaoPay API Token should be stored on the server side
-       NihaoPay *nhpOrder = [[NihaoPay alloc] initWithAPIinfo:@"https://api.nihaopay.com/v1.2/transactions/" addToken:@"844d063f1a50c5163079940f4788567973dedd030b38a9f3be9605c2c1cad5bf"];
+       NihaoPay *nhpOrder = [[NihaoPay alloc] initWithAPIinfo:@"https://api.nihaopay.com/v1.2/transactions/" addToken:token];
        
        //order info
        nhpOrder.amount=@"1";
