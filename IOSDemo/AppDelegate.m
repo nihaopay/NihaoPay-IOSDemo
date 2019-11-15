@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "NihaoPayResult.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import "UPPaymentControl/UPPaymentControl.h"
 
 @interface AppDelegate ()
 
@@ -67,6 +68,63 @@
     }];
     
     return YES;
+}
+
+// NOTE:9.0以后使用该新接口，新旧接口同时存在会调用新接口
+- (BOOL) application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    [[UPPaymentControl defaultControl] handlePaymentResult:url completeBlock:^(NSString *code, NSDictionary *data) {
+         NSLog(@"code = %@",code);
+        NSLog(@"data = %@",data);
+        //结果code为成功时，先校验签名，校验成功后做后续处理
+        if([code isEqualToString:@"success"]) {
+            
+            //判断签名数据是否存在
+//            if(data == nil){
+//                //如果没有签名数据，建议商户app后台查询交易结果
+//                return;
+//            }
+//            
+//            //数据从NSDictionary转换为NSString
+//            NSData *signData = [NSJSONSerialization dataWithJSONObject:data
+//                                                               options:0
+//                                                                 error:nil];
+//            NSString *sign = [[NSString alloc] initWithData:signData encoding:NSUTF8StringEncoding];
+            
+            
+            
+//            //验签证书同后台验签证书
+//            //此处的verify，商户需送去商户后台做验签
+//            if([self verify:sign]) {
+//                //支付成功且验签成功，展示支付成功提示
+//            }
+//            else {
+//                //验签失败，交易结果数据被篡改，商户app后台查询交易结果
+//            }
+        }
+        else if([code isEqualToString:@"fail"]) {
+            //交易失败
+        }
+        else if([code isEqualToString:@"cancel"]) {
+            //交易取消
+        }
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:code message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
+        [alertView show];
+        //过三秒消失
+        [self performSelector:@selector(dismissAlert:) withObject:alertView afterDelay:4.0f];
+//        [alertView dismissWithClickedButtonIndex:0 animated:NO];
+        
+    }];
+    
+    return YES;
+}
+
+-(void)dismissAlert:(UIAlertView *)aAlertView
+{
+    if(aAlertView)
+    {
+        //警告框消失
+        [aAlertView dismissWithClickedButtonIndex:0 animated:YES];
+    }
 }
 
 

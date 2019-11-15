@@ -17,6 +17,7 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import "NihaoPay.h"
 #import "NihaoPayResult.h"
+#import "UPPaymentControl/UPPaymentControl.h"
 
 
 //#import "UPPaymentControl.h"
@@ -285,9 +286,41 @@
 
 - (void)nhpUnionpayButtonAction //UnionPay button action, coming soon...
 {
-    NSString* msg = @"Choose UnionPay Checkout, will coming soon...";
-    NSLog(@"action:%@", msg);
-    [self showAlertMessage:msg];
+//    NSString* msg = @"Choose UnionPay Checkout, will coming soon...";
+//    NSLog(@"action:%@", msg);
+//    [self showAlertMessage:msg];
+    
+    
+    NSLog(@"action:%@", @"Choose UnionPay Checkout");
+       
+       //Init Nihaopay object
+       // NihaoPay API Token should be stored on the server side
+       NihaoPay *nhpOrder = [[NihaoPay alloc] initWithAPIinfo:@"https://api.nihaopay.com/v1.2/transactions/" addToken:@"844d063f1a50c5163079940f4788567973dedd030b38a9f3be9605c2c1cad5bf"];
+       
+       //order info
+       nhpOrder.amount=@"1";
+       nhpOrder.currency=@"USD";
+       nhpOrder.vendor=@"unionpay";
+       nhpOrder.reference=[self generateReference];
+       nhpOrder.ipnUrl=@"https://demo.nihaopay.com/ipn";
+       nhpOrder.note=@"note for merchant";
+       nhpOrder.desc=@"Product Description";
+       
+       //get order info to alipay
+       NSString *tn = [nhpOrder getOrderInfo];
+       
+     NSString *appScheme = @"nihaopay";
+     NSLog(@"tn = %@",tn);
+    if (tn != nil && tn.length > 0){
+         //unionpay
+        [[UPPaymentControl defaultControl] startPay:tn
+                                          fromScheme:appScheme
+                                                mode:@"00"
+                                      viewController:self];
+    }
+    
+  
+  
 }
 
 

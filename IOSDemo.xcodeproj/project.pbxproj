@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A08797E237E73D500B21D2C /* libPaymentControl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A08797D237E73D500B21D2C /* libPaymentControl.a */; };
 		6E1CE8FA1E81132C00F51CCC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1CE8F91E81132C00F51CCC /* main.m */; };
 		6E1CE8FD1E81132C00F51CCC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1CE8FC1E81132C00F51CCC /* AppDelegate.m */; };
 		6E1CE9001E81132C00F51CCC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1CE8FF1E81132C00F51CCC /* ViewController.m */; };
@@ -18,7 +19,6 @@
 		6E1CE91B1E81226C00F51CCC /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1CE91A1E81226C00F51CCC /* CoreTelephony.framework */; };
 		6E1CE91D1E81228000F51CCC /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1CE91C1E81228000F51CCC /* CoreMotion.framework */; };
 		6E1CE9241E81248F00F51CCC /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1CE9221E81248F00F51CCC /* libc++.1.dylib */; };
-		6E1CE9251E81248F00F51CCC /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1CE9231E81248F00F51CCC /* libstdc++.6.0.9.dylib */; };
 		6E1CE9271E8124B500F51CCC /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1CE9261E8124B500F51CCC /* libz.1.dylib */; };
 		6E1CE9291E8124F100F51CCC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1CE9281E8124F100F51CCC /* CFNetwork.framework */; };
 		6E1CE92D1E81265300F51CCC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1CE92C1E81265300F51CCC /* SystemConfiguration.framework */; };
@@ -26,6 +26,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A08797A237E73D500B21D2C /* UPPaymentControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPPaymentControl.h; sourceTree = "<group>"; };
+		2A08797B237E73D500B21D2C /* UPAPayPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPAPayPlugin.h; sourceTree = "<group>"; };
+		2A08797C237E73D500B21D2C /* UPAPayPluginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPAPayPluginDelegate.h; sourceTree = "<group>"; };
+		2A08797D237E73D500B21D2C /* libPaymentControl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPaymentControl.a; sourceTree = "<group>"; };
 		6E1CE8F51E81132C00F51CCC /* IOSDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E1CE8F91E81132C00F51CCC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E1CE8FB1E81132C00F51CCC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -55,11 +59,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A08797E237E73D500B21D2C /* libPaymentControl.a in Frameworks */,
 				6E1CE92D1E81265300F51CCC /* SystemConfiguration.framework in Frameworks */,
 				6E1CE9291E8124F100F51CCC /* CFNetwork.framework in Frameworks */,
 				6E1CE9271E8124B500F51CCC /* libz.1.dylib in Frameworks */,
 				6E1CE9241E81248F00F51CCC /* libc++.1.dylib in Frameworks */,
-				6E1CE9251E81248F00F51CCC /* libstdc++.6.0.9.dylib in Frameworks */,
 				6E1CE91D1E81228000F51CCC /* CoreMotion.framework in Frameworks */,
 				6E1CE91B1E81226C00F51CCC /* CoreTelephony.framework in Frameworks */,
 				6E1CE9151E8121E400F51CCC /* AlipaySDK.framework in Frameworks */,
@@ -69,6 +73,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A087979237E73D500B21D2C /* UPPaymentControl */ = {
+			isa = PBXGroup;
+			children = (
+				2A08797A237E73D500B21D2C /* UPPaymentControl.h */,
+				2A08797B237E73D500B21D2C /* UPAPayPlugin.h */,
+				2A08797C237E73D500B21D2C /* UPAPayPluginDelegate.h */,
+				2A08797D237E73D500B21D2C /* libPaymentControl.a */,
+			);
+			path = UPPaymentControl;
+			sourceTree = "<group>";
+		};
 		6E1CE8EC1E81132C00F51CCC = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +104,7 @@
 		6E1CE8F71E81132C00F51CCC /* IOSDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2A087979237E73D500B21D2C /* UPPaymentControl */,
 				6E1CE90F1E81155D00F51CCC /* NihaoPay */,
 				6E1CE8FB1E81132C00F51CCC /* AppDelegate.h */,
 				6E1CE8FC1E81132C00F51CCC /* AppDelegate.m */,
@@ -178,6 +194,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -331,6 +348,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2NUQ44C3Y5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -338,8 +358,13 @@
 				);
 				INFOPLIST_FILE = IOSDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nihaopay1.IOSDemo;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/IOSDemo/UPPaymentControl",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nihaopay.IOSDemo3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -347,6 +372,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Apple Distribution: cheng zhang (2NUQ44C3Y5)";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2NUQ44C3Y5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -354,8 +382,13 @@
 				);
 				INFOPLIST_FILE = IOSDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nihaopay1.IOSDemo;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/IOSDemo/UPPaymentControl",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nihaopay.IOSDemo3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
