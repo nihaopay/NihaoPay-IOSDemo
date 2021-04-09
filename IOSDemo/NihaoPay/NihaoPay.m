@@ -36,7 +36,30 @@
     NSLog(@"orderInfo: %@",[jsonDictionary valueForKey:@"orderInfo"]);
    
     NSString *orderInfo = [jsonDictionary valueForKey:@"orderInfo"];
+    
     return orderInfo;
+}
+
+-(NSMutableDictionary *) getWeChatPayParams
+{
+    //Request NihaoPay API, get orderinfo which submit to WeChatPay.
+    
+    NSString *param=[self requestParams];
+    NSString *response=[self doPost:param];
+    //NSLog(@"NihaoPay Response: %@",response);
+    NSData *jsonData = [response dataUsingEncoding:NSUTF8StringEncoding];
+    id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+    NSDictionary *jsonDictionary = (NSDictionary*)jsonObject;
+    
+    NSLog(@"orderInfo: %@",[jsonDictionary valueForKey:@"orderInfo"]);
+    
+    NSString *orderInfo = [jsonDictionary valueForKey:@"orderInfo"];
+    
+    NSData *order = [orderInfo dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:order options:NSJSONReadingMutableLeaves error:nil];
+    
+    return dict;
 }
 
 //inquery payment result from nihaopay
@@ -57,38 +80,41 @@
 
 
 - (NSString *)requestParams {
-    NSMutableString * description = [NSMutableString string];
+    NSMutableString * params = [NSMutableString string];
     
     if(self.amount){
-        [description appendFormat:@"amount=%@", self.amount];
+        [params appendFormat:@"amount=%@", self.amount];
     }
     
     if(self.currency){
-        [description appendFormat:@"&currency=%@", self.currency];
+        [params appendFormat:@"&currency=%@", self.currency];
     }
     
     if(self.ipnUrl){
-        [description appendFormat:@"&ipn_url=%@", self.ipnUrl];
+        [params appendFormat:@"&ipn_url=%@", self.ipnUrl];
     }
     
     if(self.reference){
-        [description appendFormat:@"&reference=%@", self.reference];
+        [params appendFormat:@"&reference=%@", self.reference];
     }
     
     if(self.note){
-        [description appendFormat:@"&note=%@", self.note];
+        [params appendFormat:@"&note=%@", self.note];
     }
     
     if(self.desc){
-        [description appendFormat:@"&description=%@", self.desc];
+        [params appendFormat:@"&description=%@", self.desc];
     }
     if(self.vendor){
-        [description appendFormat:@"&vendor=%@", self.vendor];
+        [params appendFormat:@"&vendor=%@", self.vendor];
+    }
+    if(self.wechatAppID){
+        [params appendFormat:@"&appid=%@", self.wechatAppID];
     }
     
-    NSLog(@"request NihaoPay params: %@",description);
+    NSLog(@"request NihaoPay params: %@",params);
     
-    return description;
+    return params;
 }
 
 //post param to nihaopay

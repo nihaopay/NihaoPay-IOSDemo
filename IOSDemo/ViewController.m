@@ -18,6 +18,8 @@
 #import "NihaoPay.h"
 #import "NihaoPayResult.h"
 #import "UPPaymentControl/UPPaymentControl.h"
+#import "WeChatSDK/WXApi.h"
+#import "WeChatSDK/WechatAuthSDK.h"
 
 
 //#import "UPPaymentControl.h"
@@ -161,6 +163,9 @@
         case 2:
             [tableView deselectRowAtIndexPath:indexPath animated:NO];
             break;
+        case 3:
+            [tableView deselectRowAtIndexPath:indexPath animated:NO];
+            break;
             
         default:
             break;
@@ -172,7 +177,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return (indexPath.row == 3) ? kCellHeight_Manual : kCellHeight_Normal;
+    return (indexPath.row == 4) ? kCellHeight_Manual : kCellHeight_Normal;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -221,6 +226,17 @@
             [upButton addTarget:self action:@selector(nhpUnionpayButtonAction) forControlEvents:UIControlEventTouchUpInside];
             [upButton setTitle:@"Pay with UnionPay" forState:UIControlStateNormal];
             [cell.contentView addSubview:upButton];
+        }
+            break;
+        case 3:
+        {
+            CGRect upFrame = CGRectMake(50, 10, CGRectGetWidth(tableView.frame)-100, 40);
+            
+            UIButton *wechatpayButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            wechatpayButton.frame = upFrame;
+            [wechatpayButton addTarget:self action:@selector(nhpWechatpayButtonAction) forControlEvents:UIControlEventTouchUpInside];
+            [wechatpayButton setTitle:@"Pay with WeChatPay" forState:UIControlStateNormal];
+            [cell.contentView addSubview:wechatpayButton];
         }
             break;
         default:
@@ -286,49 +302,83 @@
 
 - (void)nhpUnionpayButtonAction //UnionPay button action, coming soon...
 {
-//    NSString* msg = @"Choose UnionPay Checkout, will coming soon...";
-//    NSLog(@"action:%@", msg);
-//    [self showAlertMessage:msg];
-    
-    
     NSLog(@"action:%@", @"Choose UnionPay Checkout");
     NSString *token = nil;
     if(token == nil){
-       NSString* msg = @"add token please";
-        
-            [self showAlertMessage:msg];
+        NSString* msg = @"Please add NihaoPay API token";
+        [self showAlertMessage:msg];
+        return;
+    }
+    //Init Nihaopay object
+    //NihaoPay API Token should be stored on the server side
+    NihaoPay *nhpOrder = [[NihaoPay alloc] initWithAPIinfo:@"https://apitest.nihaopay.com/v1.2/transactions/" addToken:token];
+    
+    //order info
+    nhpOrder.amount=@"1";
+    nhpOrder.currency=@"USD";
+    nhpOrder.vendor=@"unionpay";
+    nhpOrder.reference=[self generateReference];
+    nhpOrder.ipnUrl=@"https://demo.nihaopay.com/ipn";
+    nhpOrder.note=@"note for merchant";
+    nhpOrder.desc=@"Product Description";
+    
+    //get order info to alipay
+    NSString *tn = [nhpOrder getOrderInfo];
+    
+    NSString *appScheme = @"nihaopay";
+    NSLog(@"tn = %@",tn);
+    if (tn != nil && tn.length > 0){
+        //unionpay
+        [[UPPaymentControl defaultControl] startPay:tn
+                                         fromScheme:appScheme
+                                               mode:@"00"
+                                     viewController:self];
+    }
+}
+
+- (void)nhpWechatpayButtonAction //wechatpay button action, coming soon...
+{
+    NSLog(@"action:%@", @"Choose wechatpay Checkout");
+    NSString *token = @"4847fed22494dc22b1b1a478b34e374e0b429608f31adf289704b4ea093e60a8";
+    if(token == nil){
+        NSString* msg = @"Please add NihaoPay API token";
+        [self showAlertMessage:msg];
         return;
     }
     
-       
-       //Init Nihaopay object
-       // NihaoPay API Token should be stored on the server side
-       NihaoPay *nhpOrder = [[NihaoPay alloc] initWithAPIinfo:@"https://api.nihaopay.com/v1.2/transactions/" addToken:token];
-       
-       //order info
-       nhpOrder.amount=@"1";
-       nhpOrder.currency=@"USD";
-       nhpOrder.vendor=@"unionpay";
-       nhpOrder.reference=[self generateReference];
-       nhpOrder.ipnUrl=@"https://demo.nihaopay.com/ipn";
-       nhpOrder.note=@"note for merchant";
-       nhpOrder.desc=@"Product Description";
-       
-       //get order info to alipay
-       NSString *tn = [nhpOrder getOrderInfo];
-       
-     NSString *appScheme = @"nihaopay";
-     NSLog(@"tn = %@",tn);
-    if (tn != nil && tn.length > 0){
-         //unionpay
-        [[UPPaymentControl defaultControl] startPay:tn
-                                          fromScheme:appScheme
-                                                mode:@"00"
-                                      viewController:self];
-    }
+    //Init Nihaopay object
+    //NihaoPay API Token should be stored on the server side
+    NihaoPay *nhpOrder = [[NihaoPay alloc] initWithAPIinfo:@"https://apitest.nihaopay.com/v1.2/transactions/" addToken:token];
     
-  
-  
+    //order info
+    nhpOrder.amount=@"1";
+    nhpOrder.currency=@"USD";
+    nhpOrder.vendor=@"wechatpay";
+    nhpOrder.reference=[self generateReference];
+    nhpOrder.ipnUrl=@"https://demo.nihaopay.com/ipn";
+    nhpOrder.wechatAppID=@"wxad55355d75667501";
+    nhpOrder.note=@"note for merchant";
+    nhpOrder.desc=@"Product Description";
+    
+    NSMutableDictionary *orderInfo = [nhpOrder getWeChatPayParams];
+    
+    
+    //向微信注册,发起支付必须注册
+    NSString* UNIVERSAL_LINK=@"https://help.wechat.com/IOSDemo/";
+    [WXApi registerApp:@"wxad55355d75667501" universalLink:UNIVERSAL_LINK];
+    
+    //调起微信支付
+    PayReq *req         = [[PayReq alloc] init];
+    req.partnerId           = [orderInfo objectForKey:@"partnerid"];
+    req.prepayId            = [orderInfo objectForKey:@"prepayid"];
+    req.nonceStr            = [orderInfo objectForKey:@"noncestr"];
+    req.timeStamp           = (UInt32)[orderInfo objectForKey:@"timestamp"];
+    req.package             = [orderInfo objectForKey:@"package"];
+    req.sign                = [orderInfo objectForKey:@"sign"];
+    [WXApi sendReq:req completion:^(BOOL success) {
+        NSLog(@"Call WeChatPay: %@",success ? @"success" :@"failed");
+    }];
+    
 }
 
 

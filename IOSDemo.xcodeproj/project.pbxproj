@@ -23,6 +23,9 @@
 		6E1CE9291E8124F100F51CCC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1CE9281E8124F100F51CCC /* CFNetwork.framework */; };
 		6E1CE92D1E81265300F51CCC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1CE92C1E81265300F51CCC /* SystemConfiguration.framework */; };
 		6E1CE9301E81298F00F51CCC /* NihaoPayResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1CE92F1E81298F00F51CCC /* NihaoPayResult.m */; };
+		6EEF7C9326205C540098D690 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EEF7C8E2620554E0098D690 /* libWeChatSDK.a */; };
+		6EEF7C9526205E360098D690 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EEF7C9426205E360098D690 /* Security.framework */; };
+		6EEF7C99262060810098D690 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EEF7C98262060810098D690 /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +55,13 @@
 		6E1CE92C1E81265300F51CCC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6E1CE92E1E81296C00F51CCC /* NihaoPayResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NihaoPayResult.h; path = NihaoPay/NihaoPayResult.h; sourceTree = "<group>"; };
 		6E1CE92F1E81298F00F51CCC /* NihaoPayResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NihaoPayResult.m; path = NihaoPay/NihaoPayResult.m; sourceTree = "<group>"; };
+		6EEF7C8C2620554D0098D690 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		6EEF7C8D2620554D0098D690 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		6EEF7C8E2620554E0098D690 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		6EEF7C8F2620554E0098D690 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		6EEF7C9426205E360098D690 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		6EEF7C9626205EC40098D690 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		6EEF7C98262060810098D690 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,10 +69,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EEF7C99262060810098D690 /* libsqlite3.dylib in Frameworks */,
+				6E1CE9271E8124B500F51CCC /* libz.1.dylib in Frameworks */,
+				6EEF7C9526205E360098D690 /* Security.framework in Frameworks */,
+				6EEF7C9326205C540098D690 /* libWeChatSDK.a in Frameworks */,
 				2A08797E237E73D500B21D2C /* libPaymentControl.a in Frameworks */,
 				6E1CE92D1E81265300F51CCC /* SystemConfiguration.framework in Frameworks */,
 				6E1CE9291E8124F100F51CCC /* CFNetwork.framework in Frameworks */,
-				6E1CE9271E8124B500F51CCC /* libz.1.dylib in Frameworks */,
 				6E1CE9241E81248F00F51CCC /* libc++.1.dylib in Frameworks */,
 				6E1CE91D1E81228000F51CCC /* CoreMotion.framework in Frameworks */,
 				6E1CE91B1E81226C00F51CCC /* CoreTelephony.framework in Frameworks */,
@@ -104,6 +117,7 @@
 		6E1CE8F71E81132C00F51CCC /* IOSDemo */ = {
 			isa = PBXGroup;
 			children = (
+				6EEF7C77262045E20098D690 /* WeChatSDK */,
 				2A087979237E73D500B21D2C /* UPPaymentControl */,
 				6E1CE90F1E81155D00F51CCC /* NihaoPay */,
 				6E1CE8FB1E81132C00F51CCC /* AppDelegate.h */,
@@ -141,6 +155,9 @@
 		6E1CE9131E8121E400F51CCC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6EEF7C98262060810098D690 /* libsqlite3.dylib */,
+				6EEF7C9626205EC40098D690 /* libz.tbd */,
+				6EEF7C9426205E360098D690 /* Security.framework */,
 				6E1CE92C1E81265300F51CCC /* SystemConfiguration.framework */,
 				6E1CE9281E8124F100F51CCC /* CFNetwork.framework */,
 				6E1CE9261E8124B500F51CCC /* libz.1.dylib */,
@@ -151,6 +168,17 @@
 				6E1CE9141E8121E400F51CCC /* AlipaySDK.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6EEF7C77262045E20098D690 /* WeChatSDK */ = {
+			isa = PBXGroup;
+			children = (
+				6EEF7C8E2620554E0098D690 /* libWeChatSDK.a */,
+				6EEF7C8F2620554E0098D690 /* WechatAuthSDK.h */,
+				6EEF7C8C2620554D0098D690 /* WXApi.h */,
+				6EEF7C8D2620554D0098D690 /* WXApiObject.h */,
+			);
+			path = WeChatSDK;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,22 +207,21 @@
 		6E1CE8ED1E81132C00F51CCC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = Sherry;
 				TargetAttributes = {
 					6E1CE8F41E81132C00F51CCC = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 2NUQ44C3Y5;
+						DevelopmentTeam = F28ZUD2599;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = 6E1CE8F01E81132C00F51CCC /* Build configuration list for PBXProject "IOSDemo" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -260,20 +287,30 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -296,7 +333,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -307,20 +344,30 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -337,7 +384,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -351,7 +398,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2NUQ44C3Y5;
+				DEVELOPMENT_TEAM = F28ZUD2599;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/IOSDemo/AliPaySDK",
@@ -361,6 +408,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/IOSDemo/UPPaymentControl",
+					"$(PROJECT_DIR)/IOSDemo/WeChatSDK",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nihaopay.IOSDemo3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -375,7 +423,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Distribution: cheng zhang (2NUQ44C3Y5)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2NUQ44C3Y5;
+				DEVELOPMENT_TEAM = F28ZUD2599;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/IOSDemo/AliPaySDK",
@@ -385,6 +433,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/IOSDemo/UPPaymentControl",
+					"$(PROJECT_DIR)/IOSDemo/WeChatSDK",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nihaopay.IOSDemo3;
 				PRODUCT_NAME = "$(TARGET_NAME)";

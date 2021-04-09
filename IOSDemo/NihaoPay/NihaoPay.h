@@ -19,12 +19,15 @@
 @property(nonatomic, copy) NSString * amount;
 @property(nonatomic, copy) NSString * currency;
 @property(nonatomic, copy) NSString * ipnUrl;
+@property(nonatomic, copy) NSString * wechatAppID;
 @property(nonatomic, copy) NSString * desc;//Optional
 @property(nonatomic, copy) NSString * note; //Optional
 
 -(id) initWithAPIinfo:(NSString *) apiUrl addToken:(NSString *) apiToken;
 
 - (NSString *)getOrderInfo;
+
+- (NSMutableDictionary *)getWeChatPayParams;
 
 - (NSDictionary *)getPayResult;
 
