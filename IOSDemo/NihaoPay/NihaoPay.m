@@ -22,44 +22,30 @@
 }
 
 
--(NSString *) getOrderInfo
+-(NSDictionary *) appPay
 {
     //Request NihaoPay API, get orderinfo which submit to Alipay.
     
-    NSString *param=[self requestParams];
-    NSString *response=[self doPost:param];
+    NSString *params=[self requestParams];
+    NSString *response=[self doPost:[self.nhpApiUrl stringByAppendingString:@"/apppay"] params:params];
     //NSLog(@"NihaoPay Response: %@",response);
     NSData *jsonData = [response dataUsingEncoding:NSUTF8StringEncoding];
-    id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
-    NSDictionary *jsonDictionary = (NSDictionary*)jsonObject;
+    NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     
-    NSLog(@"orderInfo: %@",[jsonDictionary valueForKey:@"orderInfo"]);
-   
-    NSString *orderInfo = [jsonDictionary valueForKey:@"orderInfo"];
-    
-    return orderInfo;
+    return jsonObject;
 }
 
--(NSMutableDictionary *) getWeChatPayParams
+-(NSDictionary *) apsPay
 {
-    //Request NihaoPay API, get orderinfo which submit to WeChatPay.
+    //Request NihaoPay API, get orderinfo which submit to Alipay.
     
-    NSString *param=[self requestParams];
-    NSString *response=[self doPost:param];
+    NSString *params=[self requestParams];
+    NSString *response=[self doPost:[self.nhpApiUrl stringByAppendingString:@"/aplus"] params:params];
     //NSLog(@"NihaoPay Response: %@",response);
     NSData *jsonData = [response dataUsingEncoding:NSUTF8StringEncoding];
-    id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
-    NSDictionary *jsonDictionary = (NSDictionary*)jsonObject;
+    NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     
-    NSLog(@"orderInfo: %@",[jsonDictionary valueForKey:@"orderInfo"]);
-    
-    NSString *orderInfo = [jsonDictionary valueForKey:@"orderInfo"];
-    
-    NSData *order = [orderInfo dataUsingEncoding:NSUTF8StringEncoding];
-    
-    NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:order options:NSJSONReadingMutableLeaves error:nil];
-    
-    return dict;
+    return jsonObject;
 }
 
 //inquery payment result from nihaopay
@@ -111,6 +97,9 @@
     if(self.wechatAppID){
         [params appendFormat:@"&appid=%@", self.wechatAppID];
     }
+    if(self.ostype){
+        [params appendFormat:@"&ostype=%@", self.ostype];
+    }
     
     NSLog(@"request NihaoPay params: %@",params);
     
@@ -118,24 +107,20 @@
 }
 
 //post param to nihaopay
--(NSString *) doPost:(NSString *) param{
-    
-    NSString *payUrl=[NSString stringWithFormat:@"%@%@",self.nhpApiUrl,@"apppay/"];
-    
-    NSURL *url = [NSURL URLWithString:payUrl];
+-(NSString *) doPost:(NSString *)url params:(NSString *) params{
     
     NSString *token=[NSString stringWithFormat:@"%@ %@", @"Bearer", self.nhpApiToken ];
     
     NSDictionary *headers=@{@"authorization":token,
                             @"content-type": @"application/x-www-form-urlencoded"};
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     
     [request setAllHTTPHeaderFields:headers];
     
     [request setHTTPMethod:@"POST"];
     
-    NSData *data = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *data = [params dataUsingEncoding:NSUTF8StringEncoding];
     
     [request setHTTPBody:data];
     NSData *received = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];

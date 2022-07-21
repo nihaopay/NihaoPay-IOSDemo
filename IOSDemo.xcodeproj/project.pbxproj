@@ -212,7 +212,7 @@
 				TargetAttributes = {
 					6E1CE8F41E81132C00F51CCC = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = F28ZUD2599;
+						DevelopmentTeam = WA83C7CMK3;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -398,7 +398,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F28ZUD2599;
+				DEVELOPMENT_TEAM = WA83C7CMK3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/IOSDemo/AliPaySDK",
@@ -423,7 +423,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Distribution: cheng zhang (2NUQ44C3Y5)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F28ZUD2599;
+				DEVELOPMENT_TEAM = WA83C7CMK3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/IOSDemo/AliPaySDK",

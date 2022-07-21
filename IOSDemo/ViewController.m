@@ -59,6 +59,9 @@
 
 - (void)nhpAlipayButtonAction;
 - (void)nhpUnionpayButtonAction;
+- (void)nhpWechatpayButtonAction;
+- (void)nhpApsButtonAction;
+
 
 @end
 
@@ -187,7 +190,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    return 4;
+    return 5;
 }
 
 
@@ -239,6 +242,17 @@
             [cell.contentView addSubview:wechatpayButton];
         }
             break;
+        case 4:
+        {
+            CGRect upFrame = CGRectMake(50, 10, CGRectGetWidth(tableView.frame)-100, 40);
+            
+            UIButton *apsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            apsButton.frame = upFrame;
+            [apsButton addTarget:self action:@selector(nhpApsButtonAction) forControlEvents:UIControlEventTouchUpInside];
+            [apsButton setTitle:@"Pay with APlus(A+)" forState:UIControlStateNormal];
+            [cell.contentView addSubview:apsButton];
+        }
+            break;
         default:
             break;
     }
@@ -269,9 +283,15 @@
 {
     NSLog(@"action:%@", @"Choose AliPay Checkout");
     
+    NSString *token = @"4847fed22494dc22b1b1a478b34e374e0b429608f31adf289704b4ea093e60a8";
+    if(token == nil){
+        NSString* msg = @"Please add NihaoPay API token";
+        [self showAlertMessage:msg];
+        return;
+    }
     //Init Nihaopay object
     // NihaoPay API Token should be stored on the server side
-    NihaoPay *nhpOrder = [[NihaoPay alloc] initWithAPIinfo:@"https://apitest.nihaopay.com/v1.2/transactions/" addToken:@"4847fed22494dc22b1b1a478b34e374e0b429608f31adf289704b4ea093e60a8"];
+    NihaoPay *nhpOrder = [[NihaoPay alloc] initWithAPIinfo:@"https://apitest.nihaopay.com/v1.2/transactions/" addToken:token];
     
     //order info
     nhpOrder.amount=@"1";
@@ -281,29 +301,36 @@
     nhpOrder.ipnUrl=@"https://demo.nihaopay.com/ipn";
     nhpOrder.note=@"note for merchant";
     nhpOrder.desc=@"Product Description";
+    nhpOrder.ostype=@"IOS";
     
     //get order info to alipay
-    NSString *orderInfo = [nhpOrder getOrderInfo];
-    
-    // APP scheme, defined in "info.plist" URL Types, for back to
-    NSString *appScheme = @"nihaopay";
-    
-    [[AlipaySDK defaultService] payOrder:orderInfo fromScheme:appScheme callback:^(NSDictionary *resultDic) {
-         NSLog(@"result = %@",resultDic);
-        NihaoPayResult *nhpResult = [[NihaoPayResult alloc] initWithAlipayReturn:resultDic];
-        NSLog(@"result = %@",resultDic);
+    NSDictionary * resultDict = [nhpOrder appPay];
+    if ([resultDict[@"orderInfo"] length]) {
+        NSString *orderInfo = resultDict[@"orderInfo"];
         
+        // APP scheme, defined in "info.plist" URL Types, for back to
+        NSString *appScheme = @"nihaopay";
         
-        NSLog(@"result = %@",nhpResult.clientStatus);
-    }];
+        [[AlipaySDK defaultService] payOrder:orderInfo fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+             NSLog(@"result = %@",resultDic);
+            NihaoPayResult *nhpResult = [[NihaoPayResult alloc] initWithAlipayReturn:resultDic];
+            NSLog(@"result = %@",resultDic);
+            
+            
+            NSLog(@"result = %@",nhpResult.clientStatus);
+        }];
+    } else if ([resultDict[@"redirectUrl"] length]) {
+        NSString *redirectUrl = resultDict[@"redirectUrl"];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:redirectUrl]];
+    }
+    
 }
-
 
 
 - (void)nhpUnionpayButtonAction //UnionPay button action, coming soon...
 {
     NSLog(@"action:%@", @"Choose UnionPay Checkout");
-    NSString *token = nil;
+    NSString *token = @"4847fed22494dc22b1b1a478b34e374e0b429608f31adf289704b4ea093e60a8";
     if(token == nil){
         NSString* msg = @"Please add NihaoPay API token";
         [self showAlertMessage:msg];
@@ -321,19 +348,27 @@
     nhpOrder.ipnUrl=@"https://demo.nihaopay.com/ipn";
     nhpOrder.note=@"note for merchant";
     nhpOrder.desc=@"Product Description";
+    nhpOrder.ostype=@"IOS";
     
     //get order info to alipay
-    NSString *tn = [nhpOrder getOrderInfo];
-    
-    NSString *appScheme = @"nihaopay";
-    NSLog(@"tn = %@",tn);
-    if (tn != nil && tn.length > 0){
-        //unionpay
-        [[UPPaymentControl defaultControl] startPay:tn
-                                         fromScheme:appScheme
-                                               mode:@"00"
-                                     viewController:self];
+    NSDictionary * resultDict = [nhpOrder appPay];
+    if ([resultDict[@"orderInfo"] length]) {
+        NSString *tn = resultDict[@"orderInfo"];
+        
+        NSString *appScheme = @"nihaopay";
+        NSLog(@"tn = %@",tn);
+        if (tn != nil && tn.length > 0){
+            //unionpay
+            [[UPPaymentControl defaultControl] startPay:tn
+                                             fromScheme:appScheme
+                                                   mode:@"00"
+                                         viewController:self];
+        }
+    } else if ([resultDict[@"redirectUrl"] length]) {
+        NSString *redirectUrl = resultDict[@"redirectUrl"];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:redirectUrl]];
     }
+    
 }
 
 - (void)nhpWechatpayButtonAction //wechatpay button action, coming soon...
@@ -359,26 +394,80 @@
     nhpOrder.wechatAppID=@"wxad55355d75667501";
     nhpOrder.note=@"note for merchant";
     nhpOrder.desc=@"Product Description";
+    nhpOrder.ostype=@"IOS";
     
-    NSMutableDictionary *orderInfo = [nhpOrder getWeChatPayParams];
+    //get order info to alipay
+    NSDictionary * resultDict = [nhpOrder appPay];
+    if ([resultDict[@"orderInfo"] length]) {
+        NSDictionary *orderInfo = [NSJSONSerialization JSONObjectWithData:[resultDict[@"orderInfo"] dataUsingEncoding:NSUTF8StringEncoding]
+                                                                  options:0
+                                                                    error:nil];
+        
+        //向微信注册,发起支付必须注册
+        NSString* UNIVERSAL_LINK=@"https://help.wechat.com/IOSDemo/";
+        [WXApi registerApp:@"wxad55355d75667501" universalLink:UNIVERSAL_LINK];
+        
+        //调起微信支付
+        PayReq *req         = [[PayReq alloc] init];
+        req.partnerId           = [orderInfo objectForKey:@"partnerid"];
+        req.prepayId            = [orderInfo objectForKey:@"prepayid"];
+        req.nonceStr            = [orderInfo objectForKey:@"noncestr"];
+        req.timeStamp           = (UInt32)[orderInfo objectForKey:@"timestamp"];
+        req.package             = [orderInfo objectForKey:@"package"];
+        req.sign                = [orderInfo objectForKey:@"sign"];
+        [WXApi sendReq:req completion:^(BOOL success) {
+            NSLog(@"Call WeChatPay: %@",success ? @"success" :@"failed");
+        }];
+    } else if ([resultDict[@"redirectUrl"] length]) {
+        NSString *redirectUrl = resultDict[@"redirectUrl"];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:redirectUrl]];
+    }
     
+}
+
+- (void)nhpApsButtonAction {
     
-    //向微信注册,发起支付必须注册
-    NSString* UNIVERSAL_LINK=@"https://help.wechat.com/IOSDemo/";
-    [WXApi registerApp:@"wxad55355d75667501" universalLink:UNIVERSAL_LINK];
+    NSLog(@"action:%@", @"Choose Alipay Aps Checkout");
     
-    //调起微信支付
-    PayReq *req         = [[PayReq alloc] init];
-    req.partnerId           = [orderInfo objectForKey:@"partnerid"];
-    req.prepayId            = [orderInfo objectForKey:@"prepayid"];
-    req.nonceStr            = [orderInfo objectForKey:@"noncestr"];
-    req.timeStamp           = (UInt32)[orderInfo objectForKey:@"timestamp"];
-    req.package             = [orderInfo objectForKey:@"package"];
-    req.sign                = [orderInfo objectForKey:@"sign"];
-    [WXApi sendReq:req completion:^(BOOL success) {
-        NSLog(@"Call WeChatPay: %@",success ? @"success" :@"failed");
-    }];
+    NSString *token = @"4847fed22494dc22b1b1a478b34e374e0b429608f31adf289704b4ea093e60a8";
+    if(token == nil){
+        NSString* msg = @"Please add NihaoPay API token";
+        [self showAlertMessage:msg];
+        return;
+    }
+    //Init Nihaopay object
+    // NihaoPay API Token should be stored on the server side
+    NihaoPay *nhpOrder = [[NihaoPay alloc] initWithAPIinfo:@"https://apitest.nihaopay.com/v1.2/transactions/" addToken:token];
     
+    //order info
+    nhpOrder.amount=@"1";
+    nhpOrder.currency=@"USD";
+    nhpOrder.reference=[self generateReference];
+    nhpOrder.ipnUrl=@"https://demo.nihaopay.com/ipn";
+    nhpOrder.note=@"note for merchant";
+    nhpOrder.desc=@"Product Description";
+    nhpOrder.ostype=@"IOS";
+    
+    //get order info to alipay
+    NSDictionary * resultDict = [nhpOrder apsPay];
+    if ([resultDict[@"orderInfo"] length]) {
+        NSString *orderInfo = resultDict[@"orderInfo"];
+        
+        // APP scheme, defined in "info.plist" URL Types, for back to
+        NSString *appScheme = @"nihaopay";
+        
+        [[AlipaySDK defaultService] payOrder:orderInfo fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+             NSLog(@"result = %@",resultDic);
+            NihaoPayResult *nhpResult = [[NihaoPayResult alloc] initWithAlipayReturn:resultDic];
+            NSLog(@"result = %@",resultDic);
+            
+            
+            NSLog(@"result = %@",nhpResult.clientStatus);
+        }];
+    } else if ([resultDict[@"redirectUrl"] length]) {
+        NSString *redirectUrl = resultDict[@"redirectUrl"];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:redirectUrl]];
+    }
 }
 
 
